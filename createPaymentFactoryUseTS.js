@@ -32,4 +32,4 @@ var useCreditCard = new CreatePayment('creditCard', amount);
 var useLinePay = new CreatePayment('linePay', amount);
 console.log(useCreditCard.checkout());
 console.log(useLinePay.checkout());
-console.log(useCreditCard.credit());
+// console.log(useCreditCard.paymentType);

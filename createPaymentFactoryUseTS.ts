@@ -2,8 +2,8 @@ const totalAmount = 6000;
 let amount = 0;
 
 class CreatePayment {
-  paymentType: string;
-  amount: number;
+  private paymentType: string;
+  private amount: number;
 
   constructor(paymentType: string, amount: number) {
     this.paymentType = paymentType;
@@ -37,3 +37,4 @@ const useLinePay: CreatePayment = new CreatePayment('linePay', amount);
 
 console.log(useCreditCard.checkout());
 console.log(useLinePay.checkout());
+// console.log(useCreditCard.paymentType);
