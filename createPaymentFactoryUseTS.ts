@@ -1,46 +1,39 @@
-/**
- * Ref:
- * https://www.patterns.dev/posts/factory-pattern/
- * https://medium.com/dailyjs/building-and-composing-factory-functions-50fe90141374
- *  */
-
 const totalAmount = 6000;
 let amount = 0;
-let paymentType = '';
 
 class CreatePayment {
-  constructor() {
-    this.checkout = function(paymentType: string): void {
-      if (paymentType === 'creditCard') {
-        paymentType = '信用卡';
-        CreatePayment.creditCard();
-      }
-      if (paymentType === 'linePay') {
-        paymentType = '行動支付';
-        CreatePayment.linePay();
-      }
-      return `${paymentType} 結帳總金額為 ${amount}`;
+  paymentType: string;
+  amount: number;
+
+  constructor(paymentType: string, amount: number) {
+    this.paymentType = paymentType;
+    this.amount = amount;
+  }
+  credit():number {
+    return Math.floor(totalAmount * 0.8);
+  }
+  linePay():number {
+    let discount = 0;
+    if (totalAmount >= 1000) {
+      discount = Math.floor(totalAmount / 1000) * 100;
     }
+    return totalAmount - discount;
+  }
+  checkout():string {
+    if (this.paymentType === 'creditCard') {
+      this.paymentType = '信用卡';
+      this.amount = this.credit();
+    }
+    if (this.paymentType === 'linePay') {
+      this.paymentType = '行動支付';
+      this.amount = this.linePay();
+    }
+    return `${this.paymentType} 結帳總金額為 ${this.amount}`;
   }
 }
 
-CreatePayment.creditCard = function() {
-  amount = Math.floor(totalAmount * 0.8);
-  return amount;
-};
+const useCreditCard: CreatePayment = new CreatePayment('creditCard', amount);
+const useLinePay: CreatePayment = new CreatePayment('linePay', amount);
 
-CreatePayment.linePay = function() {
-  let discount = 0;
-  if (amount >= 1000) {
-    discount = Math.floor(amount / 1000) * 100;
-  }
-  amount = totalAmount - discount; 
-  return amount;
-};
-
-const factory = new CreatePayment();
-const useCreditCard = factory.checkout('creditCard');
-console.log(useCreditCard);
-const useLinePay = factory.checkout('linePay');
-console.log(useLinePay);
-
+console.log(useCreditCard.checkout());
+console.log(useLinePay.checkout());

@@ -45,4 +45,5 @@ const useLinePay = new CreatePayment('linePay');
 
 console.log(useCreditCard.checkout());
 console.log(useLinePay.checkout());
+console.log(useCreditCard.paymentType);
 
