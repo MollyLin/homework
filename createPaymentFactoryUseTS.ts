@@ -9,10 +9,10 @@ class CreatePayment {
     this.paymentType = paymentType;
     this.amount = amount;
   }
-  credit():number {
+  private credit():number {
     return Math.floor(totalAmount * 0.8);
   }
-  linePay():number {
+  private linePay():number {
     let discount = 0;
     if (totalAmount >= 1000) {
       discount = Math.floor(totalAmount / 1000) * 100;
@@ -38,3 +38,4 @@ const useLinePay: CreatePayment = new CreatePayment('linePay', amount);
 console.log(useCreditCard.checkout());
 console.log(useLinePay.checkout());
 // console.log(useCreditCard.paymentType);
+// console.log(useCreditCard.credit());
