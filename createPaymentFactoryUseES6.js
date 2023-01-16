@@ -6,23 +6,23 @@
 
 const totalAmount = 6000;
 let amount = 0;
-let paymentType = '';
 
 // Constructor Function
 class CreatePayment {
   // constructor() 用來對實體的初始化 initialization
-  constructor() {
-    this.checkout = function(paymentType) {
-      if (paymentType === 'creditCard') {
-        paymentType = '信用卡';
-        CreatePayment.creditCard();
-      }
-      if (paymentType === 'linePay') {
-        paymentType = '行動支付';
-        CreatePayment.linePay();
-      }
-      return `${paymentType} 結帳總金額為 ${amount}`;
+  constructor(paymentType) {
+    this.paymentType = paymentType;
+  }
+  checkout() {
+    if (this.paymentType === 'creditCard') {
+      this.paymentType = '信用卡';
+      CreatePayment.creditCard();
     }
+    if (this.paymentType === 'linePay') {
+      this.paymentType = '行動支付';
+      CreatePayment.linePay();
+    }
+    return `${this.paymentType} 結帳總金額為 ${amount}`;
   }
 }
 
@@ -40,9 +40,9 @@ CreatePayment.linePay = function() {
   return amount;
 };
 
-const factory = new CreatePayment();
-const useCreditCard = factory.checkout('creditCard');
-console.log(useCreditCard);
-const useLinePay = factory.checkout('linePay');
-console.log(useLinePay);
+const useCreditCard = new CreatePayment('creditCard');
+const useLinePay = new CreatePayment('linePay');
+
+console.log(useCreditCard.checkout());
+console.log(useLinePay.checkout());
 
