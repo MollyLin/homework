@@ -15,8 +15,7 @@ const priceStrategies = {
 };
 
 const checkout = (payment: string, amount: number): void => {
-  const config = priceStrategies[payment as 'creditCard' | 'linePay'](amount);
-  return config;
+  priceStrategies[payment as 'creditCard' | 'linePay'](amount);
 };
 
 checkout('creditCard', 6000);

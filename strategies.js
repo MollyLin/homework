@@ -13,8 +13,7 @@ var priceStrategies = {
     'linePay': linePay
 };
 var checkout = function (payment, amount) {
-    var config = priceStrategies[payment](amount);
-    return config;
+    priceStrategies[payment](amount);
 };
 checkout('creditCard', 6000);
 checkout('linePay', 6000);
