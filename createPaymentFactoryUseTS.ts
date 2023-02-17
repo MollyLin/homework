@@ -1,9 +1,18 @@
 const totalAmount = 6000;
 let amount = 0;
 
+// const priceStrategies = {
+//   'creditCard': creditCard,
+//   'linePay': linePay,
+// };
+
 class CreatePayment {
   private paymentType: string;
   private amount: number;
+
+  static calculate(paymentType: string, amount: number) {
+    return priceStrategies[paymentType as 'creditCard' | 'linePay'](amount);
+  };
 
   constructor(paymentType: string, amount: number) {
     this.paymentType = paymentType;
