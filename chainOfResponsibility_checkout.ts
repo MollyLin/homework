@@ -4,6 +4,10 @@ interface IHandler {
 }
 
 class LinePay implements IHandler {
+  successor: IHandler | undefined;
+  nextSuccessor(successor: IHandler): void {
+    this.successor = successor;
+  }
   handle(amount: number) {
     let discount = 0;
     if (amount >= 1000) {
@@ -14,23 +18,22 @@ class LinePay implements IHandler {
   }
 };
 
-class Creditcard implements IHandler {
-  handle(payload: number): number;
-  handle(amount: number): string;
-  handle(amount: unknown): string | number {
-    throw new Error("Method not implemented.");
-  }
+class CreditCard implements IHandler {
+  successor: IHandler | undefined;
   nextSuccessor(successor: IHandler): void {
     throw new Error("Method not implemented.");
   }
+  handle(amount: number): string;
+  
+  
 };
 
 class PaymentChain {
   chain1: IHandler;
-  chain2: IHandler;
+  chain2: IHandler ;
   constructor() {
     this.chain1 = new LinePay();
-    this.chain2 = new Creditcard();
+    this.chain2 = new CreditCard();
     this.chain1.nextSuccessor(this.chain2);
   }
 }
