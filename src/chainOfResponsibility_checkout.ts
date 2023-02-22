@@ -1,3 +1,4 @@
+/** Handler Interface */
 interface Handler {
   setNext(handler: Handler): Handler;
   handle(amount: number): void;
@@ -19,6 +20,7 @@ abstract class AbstractHandler implements Handler {
   }
 }
 
+/** Concrete Handler */
 class LinePayHandler extends AbstractHandler {
   public handle(amount: number): void {
     let discount = 0;
@@ -31,6 +33,7 @@ class LinePayHandler extends AbstractHandler {
   }
 }
 
+/** Concrete Handler */
 class CreditCardHandler extends AbstractHandler {
   public handle(amount: number): void {
     const hasDiscountAmount = Math.floor(amount * 0.8);
@@ -39,10 +42,13 @@ class CreditCardHandler extends AbstractHandler {
   }
 };
 
+/**  Initiates the call to the first concrete handler (successor) in the chain */
+const chainPayment = (handler: Handler) => handler.handle(6000);
+
 const chainLinePay = new LinePayHandler();
 const chainCreditCard = new CreditCardHandler();
 chainLinePay.setNext(chainCreditCard);
-chainLinePay.handle(6000);
+chainPayment(chainLinePay);
 /** option 2 */
 // chainCreditCard.setNext(chainLinePay);
-// chainCreditCard.handle(6000);
+// chainPayment(chainCreditCard);
