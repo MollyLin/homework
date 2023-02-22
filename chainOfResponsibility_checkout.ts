@@ -1,43 +1,48 @@
-interface IHandler {
-  nextSuccessor(successor: IHandler): void;
-  handle(amount: number): string
+interface Handler {
+  setNext(handler: Handler): Handler;
+  handle(amount: number): void;
 }
 
-class LinePay implements IHandler {
-  successor: IHandler | undefined;
-  nextSuccessor(successor: IHandler): void {
-    this.successor = successor;
+/** The default chaining behavior */
+abstract class AbstractHandler implements Handler {
+  private nextHandler: Handler | undefined;
+
+  public setNext(handler: Handler): Handler {
+    this.nextHandler = handler;
+    return handler;
   }
-  handle(amount: number) {
+
+  public handle(amount: number): void {
+    if (this.nextHandler) {
+      return this.nextHandler.handle(amount);
+    }
+  }
+}
+
+class LinePayHandler extends AbstractHandler {
+  public handle(amount: number): void {
     let discount = 0;
     if (amount >= 1000) {
       discount = Math.floor(amount / 1000) * 100;
     }
     const hasDiscountAmount = amount - discount;
     console.log(`LinePay 結帳金額為 ${hasDiscountAmount}`);
-  }
-};
-
-class CreditCard implements IHandler {
-  successor: IHandler | undefined;
-  nextSuccessor(successor: IHandler): void {
-    throw new Error("Method not implemented.");
-  }
-  handle(amount: number): string;
-  
-  
-};
-
-class PaymentChain {
-  chain1: IHandler;
-  chain2: IHandler ;
-  constructor() {
-    this.chain1 = new LinePay();
-    this.chain2 = new CreditCard();
-    this.chain1.nextSuccessor(this.chain2);
+    return super.handle(amount);
   }
 }
 
-const chainOfAmount = 6000;
-const payment = new PaymentChain();
-payment.chain1.handle(chainOfAmount);
+class CreditCardHandler extends AbstractHandler {
+  public handle(amount: number): void {
+    const hasDiscountAmount = Math.floor(amount * 0.8);
+    console.log(`信用卡結帳金額為 ${hasDiscountAmount}`);
+    return super.handle(amount);
+  }
+};
+
+const chainLinePay = new LinePayHandler();
+const chainCreditCard = new CreditCardHandler();
+chainLinePay.setNext(chainCreditCard);
+chainLinePay.handle(6000);
+/** option 2 */
+// chainCreditCard.setNext(chainLinePay);
+// chainCreditCard.handle(6000);
