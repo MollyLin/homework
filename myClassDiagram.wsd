@@ -1,0 +1,61 @@
+@startuml MyClassDiagramForDemo
+
+interface Task {
+  +Execute()
+}
+
+abstract class AbstractTask {
+  +Execute()
+  {abstract} #Step1()
+  {abstract} #Step2()
+}
+
+class SimpleTask {
+  +Execute()
+  #Step1()
+  #Step2()
+}
+
+' implement interface
+Task <|.. AbstractTask
+' inherit class
+AbstractTask <|-- SimpleTask
+
+class Student {
+  -private
+  #protected
+  ~internal
+  +public
+}
+
+
+
+class Student2 {
+  +property
+}
+
+class Student3 {
+  +SayHello()
+}
+
+enum Days {
+  Sun,
+  Mon,
+  Tue,
+  Wed,
+  Thu,
+  Fri,
+  Sat,
+}
+
+' Static
+class TaskFactory {
+  {static} +Create()
+}
+
+' Generics
+class Manager<T extends Config> {
+  -configs: T
+}
+
+@enduml
