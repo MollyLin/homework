@@ -8,9 +8,6 @@ class Context {
   constructor(strategy: Strategy) {
     this.strategy = strategy;
   }
-  public setStrategy(strategy: Strategy) {
-    this.strategy = strategy;
-  }
   public executeStrategy(amount: number): void {
     return console.log(`${this.strategy.getName()} 結帳金額為 ${this.strategy.paymentHandle(amount)}`)
   }
