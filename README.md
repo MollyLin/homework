@@ -19,3 +19,5 @@ Ref:
   - [Strategy](https://refactoring.guru/design-patterns/strategy)
   - [TypeScript - Gof 23 Design Pattern (17)：Strategy Pattern](https://ithelp.ithome.com.tw/articles/10202524)
   - [Java's Design Patterns - Strategy Pattern](https://www.tutorialspoint.com/design_pattern/strategy_pattern.htm)
+- Factory Pattern
+  - [Factory Method](https://refactoring.guru/design-patterns/factory-method)
