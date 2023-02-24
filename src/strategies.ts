@@ -1,6 +1,6 @@
 interface Strategy {
   getName(): string;
-  paymentHandle(amount: number): void;
+  paymentHandle(amount: number): number;
 }
 
 class Context {
@@ -16,25 +16,30 @@ class Context {
   }
 }
 
-const creditCard = (amount: number) => {
-  console.log(`信用卡結帳總金額為 ${Math.floor(amount * 0.8)}`);
-};
+class S_LinePayHandler implements Strategy {
+  getName(): string {
+    return 'LinePay';
+  };
+  paymentHandle(amount: number): number {
+    let discount = 0;
+    if (amount >= 1000) {
+      discount = Math.floor(amount / 1000) * 100;
+    }
+    const hasDiscountAmount = amount - discount;
+    return hasDiscountAmount;
+  };
+}
 
-const linePay = (amount: number) => {
-  let discount = 0;
-  if (amount >= 1000) {
-    discount = Math.floor(amount / 1000) * 100;
-  }
-  console.log(`LinePay 結帳總金額為 ${amount - discount}`);
-};
-const priceStrategies = {
-  'creditCard': creditCard,
-  'linePay': linePay,
-};
+class S_CreditCardHandler implements Strategy {
+  getName(): string {
+    return '信用卡';
+  };
+  paymentHandle(amount: number): number {
+    return Math.floor(amount * 0.8);
+  };
+}
 
-const checkout = (payment: string, amount: number): void => {
-  priceStrategies[payment as 'creditCard' | 'linePay'](amount);
-};
-
-checkout('creditCard', 6000);
-checkout('linePay', 6000);
+const checkoutLinePay = new Context(new S_LinePayHandler());
+checkoutLinePay.executeStrategy(6000);
+const checkoutCreditCard = new Context(new S_CreditCardHandler());
+checkoutCreditCard.executeStrategy(6000);
