@@ -2,6 +2,9 @@ interface IPayment {
   handle(amount: number): void;
 }
 
+/**
+ * Concrete Product 實作類別
+ */
 class F_LinePayHandler implements IPayment {
   public handle(amount: number): void {
     let discount = 0;
@@ -20,15 +23,22 @@ class F_CreditCardHandler implements IPayment {
   };
 };
 
+/**
+ * Simple Factory
+ */
 class Factory {
-  getLinePay(amount: number): void {
-    return new F_LinePayHandler().handle(amount);
-  };
-  getCreditCard(amount: number): void {
-    return new F_CreditCardHandler().handle(amount);
-  };
+  create(paymentType: string): IPayment {
+    switch (paymentType) {
+      case 'Credit':
+        return new F_CreditCardHandler();
+      case 'LinePay':
+        return new F_LinePayHandler();
+      default:
+        throw new Error(`${paymentType} not found`);
+    }
+  }
 }
 
 const PaymentFactory = new Factory();
-PaymentFactory.getLinePay(6000);
-PaymentFactory.getCreditCard(6000);
+PaymentFactory.create('Credit').handle(6000);
+PaymentFactory.create('LinePay').handle(6000);
