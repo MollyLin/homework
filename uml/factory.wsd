@@ -1,0 +1,15 @@
+interface IPayment {
+  +handle()
+}
+
+class F_LinePayHandler implements IPayment {
+  +handle()
+}
+
+class F_CreditCardHandler implements IPayment {
+  +handle()
+}
+
+class Factory {
+  {static} +create()
+}
